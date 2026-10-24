@@ -58,11 +58,12 @@ Minor changes (naming, a missed import, a doc line, a dead branch, convention fi
 - Load the `rust` / `nice-code` / `testing` / `hexarch` skills as the change requires.
 - Run the targeted check after the change (`cargo clippy -p <crate> --all-features --all-targets -- -D warnings`, the affected tests).
 - Record every applied fix in the ledger as a note written for the author, in the words you would
-  use in a PR comment, with these parts: what changed and where, why, the approach taken, notes /
-  caveats (workarounds, trade-offs accepted), future work (possible follow-ups and whether they
-  are considered necessary), and the commit hash once it is committed. The wrap-up turns these notes
-  into a message the user can send as-is, so the author learns what changed without a
-  request-for-changes round-trip.
+  use in a PR comment: the **big picture** in one or two sentences (the decision and the reason
+  behind it), caveats the author must know (workarounds, trade-offs
+  accepted), follow-up work if any, and the commit hash once it is committed. The mechanics that
+  follow from the decision (renames, moved tests, rewired call sites) are visible in the diff and
+  stay out of the note. The wrap-up turns these notes into a message the user can send as-is, so
+  the author learns what changed without a request-for-changes round-trip.
 - Mechanical changes (renames, a derive replacing a hand-written impl, moving a type, import
   fixes) are committed straight away once the checks pass, one commit per change. Anything that
   changes behaviour or design waits for the user's explicit "commit"; before that commit, re-read
@@ -70,6 +71,10 @@ Minor changes (naming, a missed import, a doc line, a dead branch, convention fi
   the approach often moves between dictation and commit and the note goes to the author verbatim.
 - When reporting a commit, give its hash and the lines added versus removed
   (`git show --shortstat`).
+- **Housekeeping** stays out of the author message: merging master into the branch, and the
+  minimal fixes the branch needs to stay green after it (a stale snapshot, an import, the
+  lockfile). Commit it, list it in the ledger under housekeeping so the wrap-up skips it, and
+  move on. The author message covers changes to the author's work only.
 
 ## Todo list
 
@@ -81,12 +86,12 @@ list with the user; whatever stays open goes to the author as a finding.
 
 ## Wrap-up
 
-Only after the todo list has been worked through. Then produce two things:
-
-1. A message for the author, ready to send: every change made on their branch (from the ledger
-   notes), the open findings they still need to act on, and the future steps and notes section
-   with the tips collected during the review.
-2. The deployment impact (`.agents/REVIEW.md` rules), for the user.
+Only after the todo list has been worked through. Then produce one thing: a message for the
+author, ready to send, with every change made on their branch (from the ledger notes), the open
+code findings left from the todo list, and the future steps and notes section: follow-up tasks,
+refactors and projects that grow out of this PR, plus the tips collected during the review.
+Compatibility and deployment caveats are the reviewer's, delivered in the orient summary; they
+do not go to the author.
 
 ## Editing this skill
 
